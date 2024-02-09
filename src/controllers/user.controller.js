@@ -21,7 +21,7 @@ const register = async (req, res) => {
     }
 
     let response;
-    if (req.file.mimetype === "image/jpeg" && req.file.path) {
+    if (req.file && req.file.mimetype === "image/jpeg" && req.file.path) {
       const localFilePath = req.file.path;
       console.log("coming here");
       response = await fileUploadCloudinary(localFilePath);
@@ -54,4 +54,32 @@ const register = async (req, res) => {
   }
 };
 
-export { register };
+const login = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if ([username, password].some((field) => field.trim() === "")) {
+      return res.status(400).json(new ApiError(400, "All fields are required"));
+    }
+
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json(new ApiError(404, "User does not exist"));
+    }
+
+    const isPasswordValid = await user.isPasswordCorrect(password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json(new ApiError(401, "Password is incorrect"));
+    }
+
+    return res
+      .status(201)
+      .json(new ApiResponse(201, "User Logged in successful"));
+  } catch (error) {
+    console.log(error, "Error in Login");
+  }
+};
+
+export { register, login };
