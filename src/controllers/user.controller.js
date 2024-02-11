@@ -3,6 +3,29 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { fileUploadCloudinary } from "../utils/cloudinary.js";
 
+async function generateAccessRefreshToken(userId) {
+  try {
+    const user = await User.findOne({ userId });
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateAccessToken();
+
+    user.refreshToken = refreshToken;
+
+    await user.save({ validateBeforeSave: false });
+
+    return { accessToken, refreshToken };
+  } catch (error) {
+    return res
+      .status(500)
+      .json(
+        new ApiError(
+          500,
+          "Something went wrong while generating refresh and access token "
+        )
+      );
+  }
+}
+
 const register = async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -74,9 +97,31 @@ const login = async (req, res) => {
       return res.status(401).json(new ApiError(401, "Password is incorrect"));
     }
 
+    const { accessToken, refreshToken } = generateAccessRefreshToken(user._id);
+
+    const loggedInUser = await User.findById(user._id).select(
+      "-password -refreshToken"
+    );
+
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
     return res
       .status(201)
-      .json(new ApiResponse(201, "User Logged in successful"));
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
+      .json(
+        new ApiResponse(
+          201,
+          {
+            user: loggedInUser,
+            accessToken,
+            refreshToken,
+          },
+          "User Logged in successful"
+        )
+      );
   } catch (error) {
     console.log(error, "Error in Login");
   }
