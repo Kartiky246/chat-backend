@@ -5,9 +5,9 @@ import { fileUploadCloudinary } from "../utils/cloudinary.js";
 
 async function generateAccessRefreshToken(userId) {
   try {
-    const user = await User.findOne({ userId });
+    const user = await User.findById(userId);
     const accessToken = user.generateAccessToken();
-    const refreshToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
 
     user.refreshToken = refreshToken;
 
@@ -15,14 +15,13 @@ async function generateAccessRefreshToken(userId) {
 
     return { accessToken, refreshToken };
   } catch (error) {
-    return res
-      .status(500)
-      .json(
-        new ApiError(
-          500,
-          "Something went wrong while generating refresh and access token "
-        )
-      );
+    throw new Error(
+      new ApiError(
+        500,
+        "Something went wrong while generating refresh and access token ",
+        error
+      )
+    );
   }
 }
 
@@ -97,7 +96,9 @@ const login = async (req, res) => {
       return res.status(401).json(new ApiError(401, "Password is incorrect"));
     }
 
-    const { accessToken, refreshToken } = generateAccessRefreshToken(user._id);
+    const { accessToken, refreshToken } = await generateAccessRefreshToken(
+      user._id
+    );
 
     const loggedInUser = await User.findById(user._id).select(
       "-password -refreshToken"
