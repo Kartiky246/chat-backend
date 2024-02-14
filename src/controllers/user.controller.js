@@ -128,4 +128,24 @@ const login = async (req, res) => {
   }
 };
 
-export { register, login };
+const findUserWithName = async (req, res) => {
+  try {
+    const { searchUser } = req.body;
+
+    const regex = new RegExp(searchUser, "i");
+    const findUsers = await User.find({
+      username: { $regex: regex },
+      username: { $ne: req.user.username },
+    });
+
+    if (findUsers.length === 0) {
+      res.status(400).json(new ApiError("400", "No user found!!!"));
+    }
+
+    res.status(201).json(new ApiResponse(201, "Users found", findUsers));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { register, login, findUserWithName };
