@@ -30,12 +30,6 @@ const userSchema = new Schema({
     default:
       "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg",
   },
-  chats: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
 });
 
 userSchema.pre("save", async function (next) {
