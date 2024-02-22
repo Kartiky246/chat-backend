@@ -130,7 +130,7 @@ const login = async (req, res) => {
 
 const findUserWithName = async (req, res) => {
   try {
-    const { searchUser } = req.body;
+    const { searchUser } = req.query;
 
     const regex = new RegExp(searchUser, "i");
     const findUsers = await User.find({

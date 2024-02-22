@@ -7,7 +7,7 @@ const messageSchema = new Schema(
       ref: "User",
       required: true,
     },
-    data: {
+    message: {
       type: String,
       required: true,
     },
