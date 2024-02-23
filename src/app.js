@@ -2,6 +2,7 @@ import expres from "express";
 const app = expres();
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { errorHandler, notFound } from "./misc/error.middleware.js";
 // import router
 import userRouter from "./routes/user.routes.js";
 import chatRouter from "./routes/chat.routes.js";
@@ -19,4 +20,7 @@ app.use(cookieParser());
 // routes declaration
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/chat", chatRouter);
+
+app.use(notFound);
+app.use(errorHandler);
 export { app };
