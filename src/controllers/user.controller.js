@@ -1,6 +1,7 @@
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import { fileUploadCloudinary } from "../utils/cloudinary.js";
 
 async function generateAccessRefreshToken(userId) {
@@ -25,7 +26,7 @@ async function generateAccessRefreshToken(userId) {
   }
 }
 
-const register = async (req, res) => {
+const register = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
   try {
     // Checking if any required field is empty
@@ -74,9 +75,9 @@ const register = async (req, res) => {
     console.error("Error occurred during user registration:", error);
     return res.status(500).json(new ApiError(500, "Something went wrong"));
   }
-};
+});
 
-const login = async (req, res) => {
+const login = asyncHandler(async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -126,9 +127,9 @@ const login = async (req, res) => {
   } catch (error) {
     console.log(error, "Error in Login");
   }
-};
+});
 
-const findUserWithName = async (req, res) => {
+const findUserWithName = asyncHandler(async (req, res) => {
   try {
     const { searchUser } = req.query;
 
@@ -147,6 +148,6 @@ const findUserWithName = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-};
+});
 
 export { register, login, findUserWithName };
