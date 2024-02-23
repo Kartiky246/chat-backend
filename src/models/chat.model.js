@@ -1,33 +1,34 @@
 import mongoose, { Schema } from "mongoose";
 
-const messageSchema = new Schema(
+const chatSchema = new Schema(
   {
-    sender: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    message: {
+    chatName: {
       type: String,
-      required: true,
+      trim: true,
     },
-  },
-  { timestamps: true }
-);
-
-const chatSchema = new Schema({
-  participants: [
-    {
+    participants: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+    ],
+    isGroupChat: {
+      type: Boolean,
+      default: false,
+    },
+    latestMessage: {
+      type: Schema.types.ObjectId,
+      ref: "Message",
+    },
+    groupAdmin: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
-  ],
-  isGroupChat: {
-    type: Boolean,
-    default: false,
   },
-  messages: [messageSchema],
-});
+  {
+    timestamps: true,
+  }
+);
 
 export const Chat = mongoose.model("Chat", chatSchema);
