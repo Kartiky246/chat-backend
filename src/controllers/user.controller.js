@@ -132,7 +132,7 @@ const login = asyncHandler(async (req, res) => {
 const findUserWithName = asyncHandler(async (req, res) => {
   try {
     const { searchUser } = req.query;
-
+    if (!searchUser) return;
     const regex = new RegExp(searchUser, "i");
     const findUsers = await User.find({
       username: { $regex: regex, $ne: req.user.username },
