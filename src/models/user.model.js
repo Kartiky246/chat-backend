@@ -25,12 +25,11 @@ const userSchema = new Schema({
   refreshToken: {
     type: String,
   },
-  chats: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
+  isAdmin: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   avatar: {
     type: String,
     default:
