@@ -18,7 +18,7 @@ const chatSchema = new Schema(
       default: false,
     },
     latestMessage: {
-      type: Schema.types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Message",
     },
     groupAdmin: {
