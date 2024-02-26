@@ -16,7 +16,6 @@ const sendMessage = async (req, res) => {
     message: content,
     chat: chatId,
   };
-
   try {
     let message = await Message.create(newMessage);
 
