@@ -23,9 +23,9 @@ const accessChat = asyncHandler(async (req, res) => {
     path: "latestMessage.sender",
     sender: "username avatar email",
   });
-  console.log(isChatExist);
+
   if (isChatExist) {
-    res.status(201).json(new ApiResponse(201, "Success", isChatExist));
+    return res.status(200).json(new ApiResponse(200, "Success", isChatExist));
   } else {
     var chatData = {
       chatName: "sender",
@@ -40,7 +40,7 @@ const accessChat = asyncHandler(async (req, res) => {
       "participants",
       "-password"
     );
-    res.status(200).json(new ApiResponse(200, "", completeChat));
+    res.status(201).json(new ApiResponse(201, "", completeChat));
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
