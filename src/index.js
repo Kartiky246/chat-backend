@@ -8,26 +8,29 @@ import { app } from "./app.js";
 import { Server } from "socket.io";
 
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
 io.on("connection", (socket) => {
-  socket.on("setup", (_id) => {
-    socket.join(_id);
-    console.log(_id);
+  socket.on("setup", (userData) => {
+    socket.join(userData._id);
     socket.emit("connected");
   });
 
   socket.on("join chat", (room) => {
     socket.join(room);
+    console.log("Joined", room);
   });
 
-  socket.on("new message", (newMessage) => {
-    let chat = newMessage.data;
-
+  socket.on("new message", (newMessageReceived) => {
+    let chat = newMessageReceived.chat;
     if (!chat.participants) console.log("participants are not there");
     chat.participants.forEach((user) => {
-      // if (user === chat.sender) return;
-      socket.in(user).emit("message received", newMessage);
+      if (user._id == newMessageReceived.sender._id) return;
+      socket.in(user._id).emit("message received", newMessageReceived);
     });
   });
 });

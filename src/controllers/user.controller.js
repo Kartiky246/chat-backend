@@ -142,8 +142,8 @@ const findUserWithName = asyncHandler(async (req, res) => {
       res.status(400).json(new ApiError("400", "No user found!!!"));
     } else {
       return res
-        .status(201)
-        .json(new ApiResponse(201, "Users found", findUsers));
+        .status(200)
+        .json(new ApiResponse(200, "Users found", findUsers));
     }
   } catch (error) {
     console.log(error);

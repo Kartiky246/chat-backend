@@ -18,7 +18,7 @@ import {
 import protection from "../middleware/protection.middleware.js";
 import validateUsers from "../middleware/validateUsers.middleware.js";
 
-router.route("/").post([protection, validateUsers, accessChat]);
+router.route("/").post(protection, accessChat);
 router.route("/").get(protection, fetchChats);
 router.route("/creategroup").post(protection, createGroupChat);
 router.route("/changename").put(protection, changename);
