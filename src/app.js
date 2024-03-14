@@ -8,6 +8,9 @@ import userRouter from "./routes/user.routes.js";
 import chatRouter from "./routes/chat.routes.js";
 import messageRouter from "./routes/message.routes.js";
 // middleware
+
+
+app.use(cookieParser());
 app.use(
   cors( {
     origin:'*',
@@ -27,7 +30,6 @@ app.use(function(req, res, next) {
 
 app.use(expres.json());
 app.use(expres.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 // routes declaration
 app.use("/api/v1/users", userRouter);
