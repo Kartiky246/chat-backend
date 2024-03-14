@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 const io = new Server(server,{
   cors: {
-    origin: "https://realtime-chat-frontend-hazel.vercel.app/*",
+    origin: "*",
     credentials:true,    
     optionSuccessStatus:200,
   },

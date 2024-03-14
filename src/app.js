@@ -9,16 +9,14 @@ import chatRouter from "./routes/chat.routes.js";
 import messageRouter from "./routes/message.routes.js";
 // middleware
 app.use(
-  cors({
-    origin: "https://realtime-chat-frontend-hazel.vercel.app/*",
-    credentials:true
-  })
+  cors( { preflightContinue: true,
+    credentials: true})
 );
 
 
 app.use(expres.json());
 app.use(expres.urlencoded({ extended: true }));
-// app.use(cookieParser());
+app.use(cookieParser());
 
 // routes declaration
 app.use("/api/v1/users", userRouter);
