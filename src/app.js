@@ -9,16 +9,11 @@ import chatRouter from "./routes/chat.routes.js";
 import messageRouter from "./routes/message.routes.js";
 // middleware
 app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
-  })
+  cors()
 );
-app.use((req,res,next)=>{
-  res.setHeader('Access-Control-Allow-Origin','*'); 
-})
 
-app.use(expres.json({ limit: "20kb" }));
+
+app.use(expres.json());
 app.use(expres.urlencoded({ extended: true }));
 app.use(cookieParser());
 

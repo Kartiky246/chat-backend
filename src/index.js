@@ -8,9 +8,11 @@ import { app } from "./app.js";
 import { Server } from "socket.io";
 
 const server = http.createServer(app);
-const io = new Server(server, {
+const io = socketIO(server,{
   cors: {
     origin: "*",
+    credentials:true,    
+    optionSuccessStatus:200,
   },
 });
 
