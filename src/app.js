@@ -15,6 +15,15 @@ app.use(
     credentials: true})
 );
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Credentials", true);
+  next();
+})
+
+
+
 
 app.use(expres.json());
 app.use(expres.urlencoded({ extended: true }));
