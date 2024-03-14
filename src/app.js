@@ -10,7 +10,7 @@ import messageRouter from "./routes/message.routes.js";
 // middleware
 app.use(
   cors({
-    origin:'*',
+    origin: "https://realtime-chat-frontend-hazel.vercel.app/*",
     credentials:true
   })
 );
