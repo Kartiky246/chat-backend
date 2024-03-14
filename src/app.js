@@ -9,7 +9,10 @@ import chatRouter from "./routes/chat.routes.js";
 import messageRouter from "./routes/message.routes.js";
 // middleware
 app.use(
-  cors()
+  cors({
+    origin:'*',
+    credentials:true
+  })
 );
 
 
