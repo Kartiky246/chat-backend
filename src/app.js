@@ -14,6 +14,10 @@ app.use(
     credentials: true,
   })
 );
+app.use((req,res,next)=>{
+  res.setHeader('Access-Control-Allow-Origin','*'); 
+})
+
 app.use(expres.json({ limit: "20kb" }));
 app.use(expres.urlencoded({ extended: true }));
 app.use(cookieParser());

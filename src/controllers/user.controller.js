@@ -27,6 +27,7 @@ async function generateAccessRefreshToken(userId) {
 }
 
 const register = asyncHandler(async (req, res) => {
+  console.log("RRRR")
   const { username, email, password } = req.body;
   try {
     // Checking if any required field is empty
