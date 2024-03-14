@@ -3,6 +3,7 @@ import { User } from "../models/user.model.js";
 const protection = async (req, res, next) => {
   try {
     const token = req.cookies.accessToken;
+    console.log("REQOBJ",req)
 
     console.log("COOKIES",token)
     console.log("env variable",process.env.ACCESS_TOKEN_SECRET)
